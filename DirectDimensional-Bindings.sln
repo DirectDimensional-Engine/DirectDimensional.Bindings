@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.31911.260
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectDimensional-Core", "..\DirectDimensional-Core\DirectDimensional-Core.csproj", "{353CFDE2-C053-4FAD-BFD0-024A13B123A7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectDimensional-Bindings", "DirectDimensional-Bindings.csproj", "{AF97D9C0-1AD3-4BAB-8613-0B0733144305}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{353CFDE2-C053-4FAD-BFD0-024A13B123A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{353CFDE2-C053-4FAD-BFD0-024A13B123A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{353CFDE2-C053-4FAD-BFD0-024A13B123A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF97D9C0-1AD3-4BAB-8613-0B0733144305}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF97D9C0-1AD3-4BAB-8613-0B0733144305}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF97D9C0-1AD3-4BAB-8613-0B0733144305}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF97D9C0-1AD3-4BAB-8613-0B0733144305}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
