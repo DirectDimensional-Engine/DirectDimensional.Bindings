@@ -1,4 +1,4 @@
-﻿namespace DirectDimensional.Bindings.Direct3D11 {
+﻿namespace DirectDimensional.Bindings.D3DCompiler {
     public enum D3D_RESOURCE_RETURN_TYPE {
         UNorm = 1,
         SNorm = 2,

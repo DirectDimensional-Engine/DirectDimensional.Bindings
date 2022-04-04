@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace DirectDimensional.Bindings.Direct3D11 {
+namespace DirectDimensional.Bindings.D3DCompiler {
     public struct D3D11_SHADER_TYPE_DESC {
         public D3D_SHADER_VARIABLE_CLASS Class;
         public D3D_SHADER_VARIABLE_TYPE Type;

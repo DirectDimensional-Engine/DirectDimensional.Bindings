@@ -1,4 +1,4 @@
-﻿namespace DirectDimensional.Bindings.Direct3D11 {
+﻿namespace DirectDimensional.Bindings.D3DCompiler {
     public enum D3D_NAME {
         Undefined = 0,
         Position = 1,

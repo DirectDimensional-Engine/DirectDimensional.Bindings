@@ -1,12 +1,13 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace DirectDimensional.Bindings.Direct3D11 {
+namespace DirectDimensional.Bindings.D3DCompiler {
     public struct D3D11_SHADER_VARIABLE_DESC {
-        [MarshalAs(UnmanagedType.LPStr)]
-        public string Name;
+        public IntPtr pName;
+        public string Name => Marshal.PtrToStringAnsi(pName)!;
+
         public uint StartOffset;
         public uint Size;
-        public uint uFlags;
+        public uint Flags;
         public IntPtr DefaultValue;
         public uint StartTexture;
         public uint TextureSize;

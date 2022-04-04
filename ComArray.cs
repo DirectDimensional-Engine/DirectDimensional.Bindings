@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace DirectDimensional.Bindings {
-    public unsafe sealed class ComArray<T> : IDisposable, IEnumerable<T>, ICloneable where T : ComObject? {
+    public unsafe sealed class ComArray<T> : IComCollection<T?> where T : ComObject? {
         private IntPtr _memory;
         private readonly T?[] _objects;
         private bool disposed;
@@ -21,6 +22,8 @@ namespace DirectDimensional.Bindings {
         public ComArray(int size) {
             _objects = new T[size];
             _memory = Marshal.AllocHGlobal(size * IntPtr.Size);
+
+            Unsafe.InitBlock(_memory.ToPointer(), 0, (uint)(size * IntPtr.Size));
         }
 
         public T? this[int index] {
@@ -69,21 +72,56 @@ namespace DirectDimensional.Bindings {
             Dispose();
         }
 
-        public IEnumerator<T> GetEnumerator() {
-            return ((IEnumerable<T>)_objects!).GetEnumerator();
-        }
-
         IEnumerator IEnumerable.GetEnumerator() {
             return _objects.GetEnumerator();
         }
 
-        public object Clone() {
-            return new ComArray<T>(_objects);
+        int IList<T?>.IndexOf(T? item) {
+            throw new NotImplementedException();
+        }
+
+        void IList<T?>.Insert(int index, T? item) {
+            throw new NotImplementedException();
+        }
+
+        void IList<T?>.RemoveAt(int index) {
+            throw new NotImplementedException();
+        }
+
+        void ICollection<T?>.Add(T? item) {
+            throw new NotImplementedException();
+        }
+
+        void ICollection<T?>.Clear() {
+            throw new NotImplementedException();
+        }
+
+        bool ICollection<T?>.Contains(T? item) {
+            throw new NotImplementedException();
+        }
+
+        void ICollection<T?>.CopyTo(T?[] array, int arrayIndex) {
+            throw new NotImplementedException();
+        }
+
+        bool ICollection<T?>.Remove(T? item) {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator<T> IEnumerable<T?>.GetEnumerator() {
+            return ((IEnumerable<T>)_objects!).GetEnumerator();
+        }
+
+        void IDisposable.Dispose() {
+            throw new NotImplementedException();
         }
 
         public int Length => _objects.Length;
         public uint ULength => (uint)_objects.Length;
 
         public IntPtr NativePointer => _memory;
+
+        int ICollection<T?>.Count { get; }
+        bool ICollection<T?>.IsReadOnly { get; }
     }
 }

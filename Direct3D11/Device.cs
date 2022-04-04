@@ -93,7 +93,7 @@ namespace DirectDimensional.Bindings.Direct3D11 {
             return hr;
         }
 
-        private HRESULT CreateShaderResourceView(Resource resource, D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, out ShaderResourceView? view) {
+        public HRESULT CreateShaderResourceView(Resource resource, D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, out ShaderResourceView? view) {
             IntPtr address = (*(IntPtr*)_nativePointer) + 7 * IntPtr.Size;
             var @delegate = (delegate* unmanaged[Stdcall]<IntPtr, IntPtr, D3D11_SHADER_RESOURCE_VIEW_DESC*, void**, HRESULT>)(*(IntPtr*)address);
 

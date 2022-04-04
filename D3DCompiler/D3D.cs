@@ -30,7 +30,41 @@ namespace DirectDimensional.Bindings.D3DCompiler {
             return hr;
         }
 
+        public static HRESULT Reflect<T>(Blob bytecode, out T? reflectionInterface) where T : ComObject {
+            var type = typeof(T);
+
+            HRESULT hr = D3DReflect(bytecode.GetBufferPointer(), bytecode.GetBufferSize(), type.GUID, out IntPtr pInterface);
+            if (hr.Failed) {
+                reflectionInterface = null;
+                return hr;
+            }
+
+            reflectionInterface = Activator.CreateInstance(type, pInterface) as T;
+            return hr;
+        }
+
+        public static HRESULT Disassemble(Blob bytecode, D3D_DISASM flags, string? comments, out Blob? output) {
+            HRESULT hr = D3DDisassemble(bytecode.GetBufferPointer(), bytecode.GetBufferSize(), flags, comments, out IntPtr pBlob);
+            if (hr.Failed) {
+                output = null;
+                return hr;
+            }
+
+            output = new(pBlob);
+            return hr;
+        }
+
+        internal static HRESULT WriteBlobToFile(Blob blob, string path, bool overrideContent = true) {
+            return D3DWriteBlobToFile(blob._nativePointer, path, overrideContent);
+        }
+
         [DllImport("d3dcompiler_47.dll", ExactSpelling = true, ThrowOnUnmappableChar = false, CharSet = CharSet.Ansi)]
-        private static extern HRESULT D3DCompile(string input, nuint inputSize, string? sourceName, [MarshalAs(UnmanagedType.LPArray)] D3D_SHADER_MACRO[]? macros, IntPtr pInclude, string entryPoint, string target, D3DCOMPILE flags, uint unused, out IntPtr ppCode, out IntPtr ppError);
+        private static extern HRESULT D3DCompile(string input, nuint inputSize, string? sourceName, D3D_SHADER_MACRO[]? macros, IntPtr pInclude, string entryPoint, string target, D3DCOMPILE flags, uint unused, out IntPtr ppCode, out IntPtr ppError);
+        [DllImport("d3dcompiler_47.dll", ExactSpelling = true, ThrowOnUnmappableChar = false)]
+        private static extern HRESULT D3DReflect(IntPtr srcData, nuint inputSize, [MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, out IntPtr pInterface);
+        [DllImport("d3dcompiler_47.dll", ExactSpelling = true, ThrowOnUnmappableChar = false, CharSet = CharSet.Ansi)]
+        private static extern HRESULT D3DDisassemble(IntPtr srcData, nuint inputSize, D3D_DISASM flags, string? szComments, out IntPtr pBlob);
+        [DllImport("d3dcompiler_47.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
+        private static extern HRESULT D3DWriteBlobToFile(IntPtr pBlob, string path, [MarshalAs(UnmanagedType.Bool)] bool bOverride);
     }
 }

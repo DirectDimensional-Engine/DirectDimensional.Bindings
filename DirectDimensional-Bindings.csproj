@@ -16,4 +16,10 @@
     <NoWarn>1701;1702;CA1416</NoWarn>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove=".gitignore" />
+    <None Remove="LICENSE" />
+    <None Remove="README.md" />
+  </ItemGroup>
+
 </Project>

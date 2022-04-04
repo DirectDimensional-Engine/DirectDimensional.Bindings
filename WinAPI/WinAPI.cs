@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 namespace DirectDimensional.Bindings.WinAPI {
-    public delegate nint WndProc(IntPtr hwnd, WindowMessages msg, nuint wParam, nint lParam);
+    internal delegate nint WndProc(IntPtr hwnd, WindowMessages msg, nuint wParam, nint lParam);
 
     internal static class WinAPI {
         public static unsafe POINTS MakePOINTS(nint lParam) {

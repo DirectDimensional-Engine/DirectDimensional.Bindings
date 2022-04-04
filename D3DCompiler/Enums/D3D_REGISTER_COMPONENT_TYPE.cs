@@ -1,4 +1,4 @@
-﻿namespace DirectDimensional.Bindings.Direct3D11 {
+﻿namespace DirectDimensional.Bindings.D3DCompiler {
     public enum D3D_REGISTER_COMPONENT_TYPE {
         Unknown = 0,
         UInt32,

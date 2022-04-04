@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace DirectDimensional.Bindings.Direct3D11 {
+namespace DirectDimensional.Bindings.D3DCompiler {
     public struct D3D11_SIGNATURE_PARAMETER_DESC {
         [MarshalAs(UnmanagedType.LPStr)]
         public string SemanticName;
