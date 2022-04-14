@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Numerics;
 
 namespace DirectDimensional.Bindings.Direct3D11 {
     public struct D3D11_SAMPLER_DESC {
@@ -10,7 +9,7 @@ namespace DirectDimensional.Bindings.Direct3D11 {
         public float MipLODBias;
         public uint MaxAnisotropy;
         public D3D11_COMPARISON_FUNC ComparisonFunc;
-        public FLOAT4 BorderColor;
+        public Vector4 BorderColor;
         public float MinLOD;
         public float MaxLOD;
     }

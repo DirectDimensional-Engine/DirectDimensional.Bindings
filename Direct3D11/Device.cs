@@ -185,9 +185,20 @@ namespace DirectDimensional.Bindings.Direct3D11 {
             return hr;
         }
 
-        //public HRESULT CreateBlendState() {
-        //    IntPtr address = (*(IntPtr*)_nativePointer) + 20 * IntPtr.Size;
-        //}
+        public HRESULT CreateBlendState(D3D11_BLEND_DESC desc, out BlendState? output) {
+            IntPtr address = (*(IntPtr*)_nativePointer) + 20 * IntPtr.Size;
+            var @delegate = (delegate* unmanaged[Stdcall]<IntPtr, D3D11_BLEND_DESC*, void**, HRESULT>)(*(IntPtr*)address);
+
+            void* pOutput;
+            HRESULT hr = @delegate(_nativePointer, &desc, &pOutput);
+            if (hr.Failed) {
+                output = null;
+                return hr;
+            }
+
+            output = new(new IntPtr(pOutput));
+            return hr;
+        }
 
         public HRESULT CreateDepthStencilState(D3D11_DEPTH_STENCIL_DESC desc, out DepthStencilState? output) {
             IntPtr address = (*(IntPtr*)_nativePointer) + 21 * IntPtr.Size;
@@ -195,6 +206,22 @@ namespace DirectDimensional.Bindings.Direct3D11 {
 
             void* pOutput;
             HRESULT hr = @delegate(_nativePointer, &desc, &pOutput);
+            if (hr.Failed) {
+                output = null;
+                return hr;
+            }
+
+            output = new(new IntPtr(pOutput));
+            return hr;
+        }
+
+        public HRESULT CreateRasterizerState(D3D11_RASTERIZER_DESC desc, out RasterizerState? output) {
+            IntPtr address = (*(IntPtr*)_nativePointer) + 22 * IntPtr.Size;
+            var @delegate = (delegate* unmanaged[Stdcall]<IntPtr, D3D11_RASTERIZER_DESC*, void**, HRESULT>)(*(IntPtr*)address);
+
+            void* pOutput;
+            HRESULT hr = @delegate(_nativePointer, &desc, &pOutput);
+
             if (hr.Failed) {
                 output = null;
                 return hr;
@@ -263,6 +290,21 @@ namespace DirectDimensional.Bindings.Direct3D11 {
             }
         }
 
+        public HRESULT CreateVertexBuffer<T>(int length, bool dynamic, out Buffer? buffer) where T : unmanaged {
+            D3D11_BUFFER_DESC desc = default;
+            desc.StructureByteStride = (uint)sizeof(T);
+            desc.ByteWidth = (uint)(length * sizeof(T));
+            desc.MiscFlags = D3D11_RESOURCE_MISC_FLAG.None;
+            desc.BindFlags = D3D11_BIND_FLAG.VertexBuffer;
+
+            if (dynamic) {
+                desc.Usage = D3D11_USAGE.Dynamic;
+                desc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG.Write;
+            }
+
+            return CreateBuffer(desc, null, out buffer);
+        }
+
         public HRESULT CreateVertexBuffer<T>(Span<T> vertices, bool dynamic, out Buffer? buffer) where T : unmanaged {
             D3D11_BUFFER_DESC desc = default;
             desc.StructureByteStride = (uint)sizeof(T);
@@ -321,6 +363,39 @@ namespace DirectDimensional.Bindings.Direct3D11 {
 
                 return CreateBuffer(desc, &srd, out buffer);
             }
+        }
+
+        public HRESULT CreateIndexBuffer<T>(int length, bool dynamic, out Buffer? buffer) where T : unmanaged {
+            D3D11_BUFFER_DESC desc = default;
+            desc.StructureByteStride = (uint)sizeof(T);
+            desc.ByteWidth = (uint)(length * sizeof(T));
+            desc.MiscFlags = D3D11_RESOURCE_MISC_FLAG.None;
+            desc.BindFlags = D3D11_BIND_FLAG.IndexBuffer;
+
+            if (dynamic) {
+                desc.Usage = D3D11_USAGE.Dynamic;
+                desc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG.Write;
+            }
+
+            return CreateBuffer(desc, null, out buffer);
+        }
+
+        public HRESULT CreateConstantBuffer(uint size, void* pData, out Buffer? buffer) {
+            D3D11_BUFFER_DESC desc = default;
+            desc.ByteWidth = size;
+            desc.BindFlags = D3D11_BIND_FLAG.ConstantBuffer;
+            desc.MiscFlags = D3D11_RESOURCE_MISC_FLAG.None;
+            desc.Usage = D3D11_USAGE.Dynamic;
+            desc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG.Write;
+
+            if (pData != null) {
+                D3D11_SUBRESOURCE_DATA srd = default;
+                srd.pData = new IntPtr(pData);
+
+                return CreateBuffer(desc, &srd, out buffer);
+            }
+
+            return CreateBuffer(desc, null, out buffer);
         }
     }
 }

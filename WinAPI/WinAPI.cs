@@ -68,5 +68,11 @@ namespace DirectDimensional.Bindings.WinAPI {
         [DllImport("User32.dll", ExactSpelling = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetClientRect(IntPtr hwnd, out RECT rect);
+
+        [DllImport("User32.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
+        public static extern int MessageBoxW(IntPtr hwnd, string text, string caption, uint type);
+        
+        [DllImport("User32.dll", ExactSpelling = true)]
+        public static extern IntPtr SetCursor(IntPtr pCursor); 
     }
 }

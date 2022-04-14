@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Collections;
 
 namespace DirectDimensional.Bindings {
-    public unsafe sealed class ComList<T> : IComCollection<T?> where T : ComObject? {
+    public unsafe sealed class ComList<T> : IComCollection<T> where T : ComObject? {
         private IntPtr _memory;
         private T?[] _items;
         private int _count;
@@ -14,6 +14,8 @@ namespace DirectDimensional.Bindings {
         public int Count => _count;
 
         public bool IsReadOnly => false;
+
+        public ComList() : this(8) { }
 
         public ComList(int capacity) {
             if (capacity <= 0) throw new ArgumentOutOfRangeException(nameof(capacity), "A positive (> 0) number are required to be used as capacity");

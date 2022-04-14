@@ -3,6 +3,8 @@
 namespace DirectDimensional.Bindings.DXGI {
     [Flags]
     public enum DXGI_SWAP_CHAIN_FLAG {
+        None = 0,
+
         NonPrerotated = 1,
         AllowModeSwitch = 2,
         GDICompatible = 4,

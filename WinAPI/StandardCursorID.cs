@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DirectDimensional.Bindings.WinAPI {
-    internal enum StandardCursorID {
+    public enum StandardCursorID {
         IDC_ARROW = 32512,
         IDC_IBEAM = 32513,
         IDC_WAIT = 32514,

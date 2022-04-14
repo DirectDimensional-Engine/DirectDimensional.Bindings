@@ -3,9 +3,9 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
 namespace DirectDimensional.Bindings {
-    public unsafe sealed class ComArray<T> : IComCollection<T?> where T : ComObject? {
+    public unsafe sealed class ComArray<T> : IComCollection<T> where T : ComObject? {
         private IntPtr _memory;
-        private readonly T?[] _objects;
+        private T?[] _objects;
         private bool disposed;
 
         public ComArray(params T?[] array) {
@@ -116,12 +116,9 @@ namespace DirectDimensional.Bindings {
             throw new NotImplementedException();
         }
 
-        public int Length => _objects.Length;
-        public uint ULength => (uint)_objects.Length;
-
         public IntPtr NativePointer => _memory;
 
-        int ICollection<T?>.Count { get; }
+        public int Count => _objects.Length;
         bool ICollection<T?>.IsReadOnly { get; }
     }
 }

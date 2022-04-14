@@ -21,12 +21,7 @@
         OptimizationLevel1                      = 0,
         OptimizationLevel2                      = (1 << 14) | (1 << 15),
         OptimizationLevel3                      = 1 << 15,
-        //RESERVED16                            = 1 << 16,
-        //RESERVED17                            = 1 << 17,
         WarningsAreErrors                       = 1 << 18,
-        ResourcesMayAlias                       = 1 << 19,
-        EnableUnboundedDescriptorTables         = 1 << 20,
-        AllResourcesBound                       = 1 << 21,
         DebugNameForSource                      = 1 << 22,
         DebugNameForBinary                      = 1 << 23,
     }
