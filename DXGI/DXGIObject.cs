@@ -35,5 +35,17 @@ namespace DirectDimensional.Bindings.DXGI {
             parent = new IntPtr(pParent);
             return hr;
         }
+
+        public T? GetParent<T>(out HRESULT hr) where T : ComObject {
+            IntPtr address = (*(IntPtr*)_nativePointer) + 6 * IntPtr.Size;
+            var @delegate = (delegate* unmanaged[Stdcall]<IntPtr, Guid, void**, HRESULT>)(*(IntPtr*)address);
+
+            var type = typeof(T);
+
+            void* pParent;
+            hr = @delegate(_nativePointer, type.GUID, &pParent);
+
+            return Activator.CreateInstance(type, new IntPtr(pParent)) as T;
+        }
     }
 }

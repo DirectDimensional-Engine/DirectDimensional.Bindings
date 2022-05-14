@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 namespace DirectDimensional.Bindings.WinAPI {
     internal delegate nint WndProc(IntPtr hwnd, WindowMessages msg, nuint wParam, nint lParam);
 
-    internal static class WinAPI {
-        public static unsafe POINTS MakePOINTS(nint lParam) {
+    internal static unsafe class WinAPI {
+        public static POINTS MakePOINTS(nint lParam) {
             return *(POINTS*)&lParam;
         }
 
@@ -55,6 +55,9 @@ namespace DirectDimensional.Bindings.WinAPI {
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetForegroundWindow(IntPtr hwnd);
 
+        [DllImport("User32.dll", ExactSpelling = true)]
+        public static extern int MapWindowPoints(IntPtr hwndFrom, IntPtr hwndTo, POINT* points, int pointCount);
+
         [DllImport("kernel32.dll", ExactSpelling = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool QueryPerformanceFrequency(out long frequency);
@@ -69,10 +72,36 @@ namespace DirectDimensional.Bindings.WinAPI {
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetClientRect(IntPtr hwnd, out RECT rect);
 
+        [DllImport("User32.dll", ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetWindowRect(IntPtr hwnd, out RECT rect);
+
+        [DllImport("User32.dll", ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ClientToScreen(IntPtr hwnd, ref POINT point);
+
         [DllImport("User32.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
         public static extern int MessageBoxW(IntPtr hwnd, string text, string caption, uint type);
         
         [DllImport("User32.dll", ExactSpelling = true)]
-        public static extern IntPtr SetCursor(IntPtr pCursor); 
+        public static extern IntPtr SetCursor(IntPtr pCursor);
+
+        [DllImport("User32.dll", ExactSpelling = true)]
+        public static extern int GetSystemMetric(SystemMetric metric);
+
+        [DllImport("User32.dll", ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool RegisterRawInputDevices(RAWINPUTDEVICE* prid, uint numDevices, uint cbSize);
+
+        [DllImport("User32.dll", ExactSpelling = true)]
+        public static extern uint GetRawInputData(RAWINPUT* pRawInput, uint command, void* pData, ref uint cbSize, int cbSizeHeader);
+
+        [DllImport("User32.dll", ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetCursorPos(out POINT pt);
+
+        [DllImport("User32.dll", ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetCursorPos(int x, int y);
     }
 }
